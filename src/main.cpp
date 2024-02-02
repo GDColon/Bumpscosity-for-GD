@@ -35,8 +35,14 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 	bool init() {
 		MoreOptionsLayer::init();
 
+		int settingsPage = 6;
+
+		#if defined(GEODE_IS_ANDROID)
+			settingsPage = 4;
+		#endif
+
 		CCLayer* mainLayer = MoreOptionsLayer::m_mainLayer;
-        CCLayer* performance = as<CCLayer*>(mainLayer->getChildren()->objectAtIndex(6));
+        CCLayer* performance = as<CCLayer*>(mainLayer->getChildren()->objectAtIndex(settingsPage));
 
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 		float currentVal = Mod::get()->getSavedValue<float>("bumpscosity", 0);
