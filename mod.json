@@ -8,5 +8,6 @@
 	"id": "colon.bumpscosity",
 	"name": "Bumpscosity",
 	"developer": "Colon",
-	"description": "Adds an in-game slider to change bumpscosity"
+	"description": "Adds an in-game slider to change bumpscosity",
+	"repository": "https://github.com/GDColon/Bumpscosity-for-GD"
 }
