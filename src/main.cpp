@@ -29,8 +29,10 @@ int getBumpscosityIndex(float percentage) {
 }
 
 class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
-	Slider* bumpSlider;
-	CCLabelBMFont* bumpText;
+	struct Fields {
+		Slider* bumpSlider;
+		CCLabelBMFont* bumpText;
+	};
 
 	bool init() {
 		MoreOptionsLayer::init();
@@ -64,7 +66,7 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 		setBumpscosityLabel(currentVal);
 
 		return true;
-	} 
+	}
 
 	void onBumpscosityChange(CCObject* sender) {
 		float bumpVal = m_fields->bumpSlider->getThumb()->getValue();
@@ -77,7 +79,7 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 
 	void setBumpscosityLabel(float percentage) {
 		int bumpIndex = getBumpscosityIndex(percentage);
-		
+
 		m_fields->bumpText->setString(("Bumpscosity: " + std::to_string(bumpValues[bumpIndex])).c_str());
 	}
 };
