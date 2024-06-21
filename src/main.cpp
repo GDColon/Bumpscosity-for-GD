@@ -44,7 +44,7 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 		#endif
 
 		CCLayer* mainLayer = MoreOptionsLayer::m_mainLayer;
-        CCLayer* settingsPage = as<CCLayer*>(mainLayer->getChildren()->objectAtIndex(settingsPage));
+        CCLayer* settingsLayer = as<CCLayer*>(mainLayer->getChildren()->objectAtIndex(settingsPage));
 
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 		float currentVal = Mod::get()->getSavedValue<float>("bumpscosity", 0);
@@ -54,12 +54,12 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 
 		label->setPosition({ 0, -100 });
 		label->setScale(0.5f);
-		settingsPage->addChild(label);
+		settingsLayer->addChild(label);
 
 		auto slider = Slider::create(this, menu_selector(CustomMoreOptionsLayer::onBumpscosityChange), 0.8f);
 		slider->setPosition({ 0, -120 });
 		slider->setValue(clampf(currentVal, 0, 1));
-		settingsPage->addChild(slider);
+		settingsLayer->addChild(slider);
 
 		m_fields->bumpSlider = slider;
 		m_fields->bumpText = label;
