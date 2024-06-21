@@ -37,10 +37,10 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 	bool init() {
 		MoreOptionsLayer::init();
 
-		int settingsPage = 6;
+		int settingsPage = 2;
 
 		#if defined(GEODE_IS_ANDROID)
-			settingsPage = 4;
+			settingsPage = 2;
 		#endif
 
 		CCLayer* mainLayer = MoreOptionsLayer::m_mainLayer;
