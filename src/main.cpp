@@ -37,10 +37,10 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 	bool init() {
 		MoreOptionsLayer::init();
 
-		int settingsPage = 2;
+		int settingsPage = 3;
 
 		#if defined(GEODE_IS_ANDROID)
-			settingsPage = 2;
+			settingsPage = 3;
 		#endif
 
 		CCLayer* mainLayer = MoreOptionsLayer::m_mainLayer;
@@ -52,12 +52,12 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 		auto label = CCLabelBMFont::create("", "bigFont.fnt");
 		auto center = (winSize.width / 2);
 
-		label->setPosition({ 0, -100 });
+		label->setPosition({ center, 64 });
 		label->setScale(0.5f);
 		settingsLayer->addChild(label);
 
 		auto slider = Slider::create(this, menu_selector(CustomMoreOptionsLayer::onBumpscosityChange), 0.8f);
-		slider->setPosition({ 0, -120 });
+		slider->setPosition({ center, 42 });
 		slider->setValue(clampf(currentVal, 0, 1));
 		settingsLayer->addChild(slider);
 
