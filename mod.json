@@ -1,5 +1,5 @@
 {
-	"geode": "3.0.0-beta.4",
+	"geode": "3.0.0",
 	"gd": {
 		"win": "2.206",
 		"android": "2.206"
@@ -9,5 +9,6 @@
 	"name": "Bumpscosity",
 	"developer": "Colon",
 	"description": "Adds an in-game slider to change bumpscosity",
+	"tags": ["joke"],
 	"repository": "https://github.com/GDColon/Bumpscosity-for-GD"
 }
