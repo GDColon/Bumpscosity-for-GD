@@ -4,19 +4,21 @@
 
 using namespace geode::prelude;
 
-int bumpOptions = 13;
-int bumpValues[13] = { 0, 1, 9, 12, 22, 50, 76, 100, 128, 149, 727, 940, 1000 };
-std::string bumpMessages[13] = {
+int bumpOptions = 15;
+int bumpValues[15] = { 0, 1, 9, 12, 22, 39, 50, 76, 100, 128, 149, 255, 727, 940, 1000 };
+std::string bumpMessages[15] = {
 	/* 0 */ "Where did all the bumpscosity go?",
 	/* 1 */ "Really, just a single bumpscosit?",
 	/* 9 */ "Do you feel a lack of bumpscosity in here?",
 	/* 12 */ "Ah, just a perfect breeze of bumpscosity",
 	/* 22 */ "I sense bumpscosity in you...",
+	/* 39 */ "It's comfortably bumpscocious in here",
 	/* 50 */ "What a pleasant amount of bumpscosity we've got today!",
 	/* 76 */ "Do you feel more bumpscocious than usual?",
 	/* 100*/ "One hundred whole bumpscosits? That's quite a lot!",
 	/* 128*/ "Who turned up the bumpscosity so high?",
 	/* 149*/ "I don't remember there being this much bumpscosity...",
+	/* 255*/ "Did someone touch the bumpscosity again?",
 	/* 727*/ "How can you stand this much bumpscosity?",
 	/* 940*/ "My god, the bumpscosity in here is absolutely overwhelming!",
 	/*1000*/ "GAH! I can't handle this much bumpscosity!",
@@ -51,13 +53,17 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 
 		auto label = CCLabelBMFont::create("", "bigFont.fnt");
 		auto center = (winSize.width / 2);
+		auto vCenter = (winSize.height / 2);
+		
+		int yOffset = 95;
+		int ySpacing = 22;
 
-		label->setPosition({ center, 64 });
+		label->setPosition({ center, vCenter - yOffset });
 		label->setScale(0.5f);
 		settingsLayer->addChild(label);
 
 		auto slider = Slider::create(this, menu_selector(CustomMoreOptionsLayer::onBumpscosityChange), 0.8f);
-		slider->setPosition({ center, 42 });
+		slider->setPosition({ center, vCenter - yOffset - ySpacing });
 		slider->setValue(clampf(currentVal, 0, 1));
 		settingsLayer->addChild(slider);
 

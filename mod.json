@@ -1,14 +1,13 @@
 {
-	"geode": "3.1.0",
+	"geode": "4.0.1",
 	"gd": {
-		"win": "2.206",
-		"android": "2.206"
+		"win": "2.2074",
+		"android": "2.2074"
 	},
-	"version": "v1.0.4",
+	"version": "v1.0.5",
 	"id": "colon.bumpscosity",
 	"name": "Bumpscosity",
 	"developer": "Colon",
 	"description": "Adds an in-game slider to change bumpscosity",
-	"tags": ["joke"],
-	"repository": "https://github.com/GDColon/Bumpscosity-for-GD"
+	"tags": ["joke"]
 }
