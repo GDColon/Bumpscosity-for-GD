@@ -1,8 +1,9 @@
 {
-	"geode": "4.0.1",
+	"geode": "4.4.0",
 	"gd": {
 		"win": "2.2074",
-		"android": "2.2074"
+		"android": "2.2074",
+        "ios": "2.2074"
 	},
 	"version": "v1.0.5",
 	"id": "colon.bumpscosity",
