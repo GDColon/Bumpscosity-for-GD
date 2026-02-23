@@ -4,9 +4,9 @@
 
 using namespace geode::prelude;
 
-int bumpOptions = 15;
-int bumpValues[15] = { 0, 1, 9, 12, 22, 39, 50, 76, 100, 128, 149, 255, 727, 940, 1000 };
-std::string bumpMessages[15] = {
+int bumpOptions = 20;
+int bumpValues[20] = { 0, 1, 9, 12, 22, 39, 50, 67, 76, 98, 100, 128, 149, 255, 352, 512, 727, 940, 1000, 1003 };
+std::string bumpMessages[20] = {
 	/* 0 */ "Where did all the bumpscosity go?",
 	/* 1 */ "Really, just a single bumpscosit?",
 	/* 9 */ "Do you feel a lack of bumpscosity in here?",
@@ -14,14 +14,19 @@ std::string bumpMessages[15] = {
 	/* 22 */ "I sense bumpscosity in you...",
 	/* 39 */ "It's comfortably bumpscocious in here",
 	/* 50 */ "What a pleasant amount of bumpscosity we've got today!",
+	/* 67 */ "Come on in, the bumpscosity's great!",
 	/* 76 */ "Do you feel more bumpscocious than usual?",
+	/* 98 */ "The weather forecast's calling for another bumpscocious day.",
 	/* 100*/ "One hundred whole bumpscosits? That's quite a lot!",
 	/* 128*/ "Who turned up the bumpscosity so high?",
 	/* 149*/ "I don't remember there being this much bumpscosity...",
 	/* 255*/ "Did someone touch the bumpscosity again?",
+	/* 352*/ "Not even this much bumpscosity will stop me from doing my job!",
+	/* 512*/ "Watch out, it's extremely bumpscocious today!",
 	/* 727*/ "How can you stand this much bumpscosity?",
 	/* 940*/ "My god, the bumpscosity in here is absolutely overwhelming!",
 	/*1000*/ "GAH! I can't handle this much bumpscosity!",
+	/*1003*/ "Anyone else hear feel that ominous amount of bumpscosity? No? Just me?"
 };
 
 int getBumpscosityIndex(float percentage) {
@@ -102,7 +107,7 @@ class $modify(CustomSecretLayer2, SecretLayer2) {
 	}
 
 	gd::string getBasicMessage() {
-		if (rand() % 15 == 0) return getBumpscosityMessage();
+		if (rand() % 12 == 0) return getBumpscosityMessage();
 		else return SecretLayer2::getBasicMessage();
 	}
 
