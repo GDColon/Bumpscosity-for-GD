@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "main"
+      - "**"
 
 jobs:
   build:
@@ -14,9 +14,9 @@ jobs:
         config:
         - name: Windows
           os: windows-latest
-          
-        # - name: macOS
-        #  os: macos-latest
+
+        - name: macOS
+          os: macos-latest
 
         - name: Android32
           os: ubuntu-latest
@@ -26,19 +26,26 @@ jobs:
           os: ubuntu-latest
           target: Android64
 
+        - name: iOS
+          os: macos-latest
+          target: iOS
+
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
-          sdk: nightly
+          bindings: geode-sdk/bindings
+          bindings-ref: main
           combine: true
+          sdk: 'nightly'
+          cli: 'nightly'
           target: ${{ matrix.config.target }}
-      
+
   package:
     name: Package builds
     runs-on: ubuntu-latest
@@ -48,7 +55,7 @@ jobs:
       - uses: geode-sdk/build-geode-mod/combine@main
         id: build
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}
