@@ -1,5 +1,5 @@
 #include <Geode/Geode.hpp>
-#include <Geode/modify/MoreOptionsLayer.hpp>
+#include <Geode/modify/GameSettingsLayer.hpp>
 #include <Geode/modify/SecretLayer2.hpp>
 
 using namespace geode::prelude;
@@ -35,23 +35,15 @@ int getBumpscosityIndex(float percentage) {
 	else return roundf(1 + ((bumpOptions - 3) * percentage));
 }
 
-class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
+class $modify(CustomGameSettingsLayer, GameSettingsLayer) {
 	struct Fields {
 		Slider* bumpSlider;
 		CCLabelBMFont* bumpText;
 	};
 
-	bool init() {
-		MoreOptionsLayer::init();
+	static GameSettingsLayer* create(GJBaseGameLayer* p0, int p1) {
 
-		int settingsPage = 3;
-
-		#if defined(GEODE_IS_ANDROID)
-			settingsPage = 3;
-		#endif
-
-		CCLayer* mainLayer = MoreOptionsLayer::m_mainLayer;
-        CCLayer* settingsLayer = typeinfo_cast<CCLayer*>(mainLayer->getChildren()->objectAtIndex(settingsPage));
+		GameSettingsLayer* gsl = GameSettingsLayer::create(p0, p1);
 
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 		float currentVal = Mod::get()->getSavedValue<float>("bumpscosity", 0);
@@ -60,25 +52,63 @@ class $modify(CustomMoreOptionsLayer, MoreOptionsLayer) {
 		auto center = (winSize.width / 2);
 		auto vCenter = (winSize.height / 2);
 		
-		int yOffset = 95;
+		int settingsTab = 9;  // "other" tab, page 2
+
+		float yOffset = 100.4f;
 		int ySpacing = 22;
 
+		float labelScale = 0.35f;
+		float sliderScale = 0.56f;
+
 		int xOffset = 95;
+		int leftXOffset = -xOffset - 15;
+		
+		// on mobile, there's no scroll slider so we can just put bumpscosity there!
+		#if defined(GEODE_IS_MOBILE)
+			xOffset = leftXOffset;
+		#endif
 
+		// label
 		label->setPosition({ center + xOffset, vCenter - yOffset });
-		label->setScale(0.5f);
-		settingsLayer->addChild(label);
+		label->setScale(labelScale);
+		label->setVisible(false);
+		label->setID("bumpscosity-label"_spr);
+		gsl->m_mainLayer->addChild(label);
+		gsl->getPageContainer(settingsTab)->addObject(label);
+		gsl->addObjectToGroup(label, 0);
 
-		auto slider = Slider::create(this, menu_selector(CustomMoreOptionsLayer::onBumpscosityChange), 0.8f);
+		// slider
+		auto slider = Slider::create(gsl, menu_selector(CustomGameSettingsLayer::onBumpscosityChange), sliderScale);
 		slider->setPosition({ center + xOffset, vCenter - yOffset - ySpacing });
 		slider->setValue(clampf(currentVal, 0, 1));
-		settingsLayer->addChild(slider);
+		slider->setVisible(false);
+		slider->setID("bumpscosity-slider"_spr);
+		gsl->m_mainLayer->addChild(slider);
+		gsl->getPageContainer(settingsTab)->addObject(slider);
+		gsl->addObjectToGroup(slider, 0);
 
-		m_fields->bumpSlider = slider;
-		m_fields->bumpText = label;
-		setBumpscosityLabel(currentVal);
+		// move the clear plat saves button >:(
+		#if !defined(GEODE_IS_MOBILE)
+			CCNode* platButtonBase = gsl->m_buttonMenu->getChildByTag(-1004);
+			if (platButtonBase) {
+				bool shouldCenter = GameManager::get()->m_hasRP != 2;  // elder mods have an extra setting, shift button to account for it
+				float btnPos = shouldCenter ? 0 : xOffset;
+				CCMenuItemSpriteExtra* platButton = typeinfo_cast<CCMenuItemSpriteExtra*>(platButtonBase);
+				platButton->m_baseScale = 0.8f;
+				platButton->setScale(0.8f);
+				platButton->setPosition({ btnPos, 48 });
+			}
+		#endif
 
-		return true;
+		// store data
+		auto gsl2 = modify_cast<CustomGameSettingsLayer*>(gsl);
+		gsl2->m_fields->bumpSlider = slider;
+		gsl2->m_fields->bumpText = label;
+		gsl2->setBumpscosityLabel(currentVal);
+
+		gsl->showTab(gsl->m_currentTab);
+
+		return gsl;
 	}
 
 	void onBumpscosityChange(CCObject* sender) {
@@ -106,12 +136,12 @@ class $modify(CustomSecretLayer2, SecretLayer2) {
 		return true;
 	}
 
-	gd::string getBasicMessage() {
+	std::string getBasicMessage() {
 		if (rand() % 12 == 0) return getBumpscosityMessage();
 		else return SecretLayer2::getBasicMessage();
 	}
 
-	gd::string getBumpscosityMessage() {
+	std::string getBumpscosityMessage() {
 		float currentVal = Mod::get()->getSavedValue<float>("bumpscosity", 0);
 		int bumpIndex = getBumpscosityIndex(currentVal);
 		return bumpMessages[bumpIndex];
